@@ -15,8 +15,10 @@ export function AddNodeForm() {
   console.log(watch("example")); // watch input value by passing the name of it
 
   return (
+    
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form onSubmit={handleSubmit(onSubmit)}>
+      
     {/* register your input into the hook by invoking the "register" function */}
       <label>Name</label>
       <input type="text" placeholder="Name" name="name" ref={register({required: true, maxLength: 80})} />
@@ -26,7 +28,7 @@ export function AddNodeForm() {
       {/* errors will return when field validation fails  */}
       {errors.exampleRequired && <span>This field is required</span>}
       
-      <input type="submit" />
+      <input type="submit"/>
     </form>
   );
 }
