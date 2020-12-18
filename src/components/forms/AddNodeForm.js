@@ -1,10 +1,16 @@
-import React from "react";
+import { React, Component } from "react";
+
+import { connect, useDispatch } from 'react-redux'
+import { addNode } from '../../redux/actions'
 import { useForm } from "react-hook-form";
 
+// class AddNodeForm extends React.Component {
 export function AddNodeForm() {
   const { register, handleSubmit, watch, errors } = useForm();
-  const onSubmit = data => alert(JSON.stringify(data));
-  // const onSubmit = data => console.log(data);
+  const dispatch = useDispatch()
+  const onSubmit = data => {
+    dispatch({ type: 'ADD_NODE', payload: data.name })
+  }
 
   console.log(watch("example")); // watch input value by passing the name of it
 
@@ -14,6 +20,9 @@ export function AddNodeForm() {
     {/* register your input into the hook by invoking the "register" function */}
       <label>Name</label>
       <input type="text" placeholder="Name" name="name" ref={register({required: true, maxLength: 80})} />
+      
+      <label>Connected To</label>
+      <input type="text" placeholder="Conected To" name="connected" ref={register} />
       {/* errors will return when field validation fails  */}
       {errors.exampleRequired && <span>This field is required</span>}
       
@@ -21,3 +30,8 @@ export function AddNodeForm() {
     </form>
   );
 }
+
+export default connect(
+  null,
+  { addNode }
+)(AddNodeForm)
