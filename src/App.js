@@ -2,7 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import { AddNodeForm } from './components/forms/AddNodeForm';
-
+import { AddEdgeForm } from './components/forms/AddEdgeForm';
+import { NodeList } from './components/graph/GraphComponent';
+import { AppGraph } from './components/graph/Graph'
 import './App.css';
 import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
@@ -14,14 +16,19 @@ function App() {
       </Header>
       <Layout>
         <Sider>
-          <AddNodeForm></AddNodeForm>
+          <p id="p">Add Node</p>
+          <AddNodeForm/>
+          <p id="p">Add Edge</p>
+          <AddEdgeForm/>
         </Sider>
         <Content>
           <div id="canvas"></div>
+          <NodeList/>
+          <AppGraph/>
           <div className="App">
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
-              <Counter />
+              {/* <Counter /> */}
               <p>
                 Edit <code>src/App.js</code> and saaddde dto reload!
               </p>

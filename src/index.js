@@ -3,15 +3,28 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import './css/form-styles.css';
 import App from './App';
-import store from './app/store';
+// import store from './app/store';
+import store from './store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
+
+console.log('Initial state: ', store.getState())
+
+const unsubscribe = store.subscribe(() =>
+  console.log('State after dispatch: ', store.getState())
+)
+
+store.dispatch({type: 'ADD_NODE', payload: 'NEW NODE A'})
+store.dispatch({type: 'ADD_NODE', payload: 'NEW NODE B'})
+store.dispatch({type: 'ADD_NODE', payload: 'NEW NODE C'})
+
+console.log('New state: ', store.getState())
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
-      <p>"Hello, world!"</p>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
