@@ -2,7 +2,6 @@ import { React, Component } from "react";
 
 import { connect, useDispatch } from 'react-redux'
 import { addEdge } from '../../redux/actions'
-
 import { useForm } from "react-hook-form"
 
 
@@ -16,6 +15,7 @@ export function AddEdgeForm() {
     }
 
     return (
+        <div>
         <form onSubmit={handleSubmit(onSubmit)}>
         
             <label>Name</label>
@@ -28,6 +28,7 @@ export function AddEdgeForm() {
 
             <input type="submit"></input>
         </form>
+        </div>
     );
 }
 

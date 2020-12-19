@@ -7,8 +7,15 @@ import * as d3 from 'd3'
 
 var FORCE = (function(nsp){
   
-    var 
-    width = 1080,
+    
+  alert(JSON.stringify(nsp))
+  // var element = d3.select('canvas').node()
+  // const bbox = d3.select("body").node().getBBox()
+  // alert(element)
+  var 
+    // width = element.width,
+    // height = element.height,
+    width = 600,
     height = 250,
     color = d3.scaleOrdinal(d3.schemeCategory10),
         
@@ -65,19 +72,19 @@ var FORCE = (function(nsp){
         .call(updateLink);
     },
   
-    dragStarted = (d) => {
-      if (!d3.event.active) nsp.force.alphaTarget(0.3).restart();
+    dragStarted = (event, d) => {
+      if (!event.active) nsp.force.alphaTarget(0.3).restart();
       d.fx = d.x;
       d.fy = d.y
     },
   
-    dragging = (d) => {
-      d.fx = d3.event.x;
-      d.fy = d3.event.y
+    dragging = (event, d) => {
+      d.fx = event.x;
+      d.fy = event.y
     },
         
-    dragEnded = (d) => {
-      if (!d3.event.active) nsp.force.alphaTarget(0);
+    dragEnded = (event, d) => {
+      if (!event.active) nsp.force.alphaTarget(0);
         d.fx = null;
         d.fy = null
     },

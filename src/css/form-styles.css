@@ -7,21 +7,21 @@ body {
   
 form {
   max-width: 500px;
-  margin: 50px auto;
+  margin: 10px;
 }
 
-/* h1 {
+h1 {
   font-weight: 100;
   color: white;
   text-align: center;
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(79, 98, 148);
-} */
+}
 
 .form {
   background: #0e101c;
   max-width: 400px;
-  margin: 50px auto;
+  margin: 10px;
 }
 
 /* p {
@@ -62,10 +62,10 @@ input[type="submit"] {
   text-transform: uppercase;
   border: none;
   margin-top: 40px;
-  padding: 20px;
+  padding: 10px;
   font-size: 16px;
-  font-weight: 100;
-  letter-spacing: 10px;
+  font-weight: 400;
+  letter-spacing: 5px;
 }
 
 button[type="submit"]:hover,
@@ -96,10 +96,10 @@ input[type="submit"] {
   -webkit-appearance: none;
 }
 
-.App {
+/* .App {
   max-width: 600px;
   margin: 0 auto;
-}
+} */
 
 button[type="button"] {
   display: block;

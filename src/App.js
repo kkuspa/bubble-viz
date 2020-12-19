@@ -1,6 +1,5 @@
 import React from 'react';
 import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import { AddNodeForm } from './components/forms/AddNodeForm';
 import { AddEdgeForm } from './components/forms/AddEdgeForm';
 import { NodeList } from './components/graph/GraphComponent';
@@ -11,19 +10,20 @@ const { Header, Footer, Sider, Content } = Layout;
 
 function App() {
   return (
+    <div>
     <Layout>
-      <Header>
-      </Header>
+      <Header>Header</Header>
       <Layout>
         <Sider>
-          <p id="p">Add Node</p>
+          <h1 id="p">Add Nodes</h1>
           <AddNodeForm/>
-          <p id="p">Add Edge</p>
+          <h1 id="p">Add Edge</h1>
           <AddEdgeForm/>
         </Sider>
         <Content>
-          <div id="canvas"></div>
-          <NodeList/>
+          <div className="canvas">
+            <NodeList/>
+          </div>
           <AppGraph/>
           <div className="App">
             <header className="App-header">
@@ -76,6 +76,7 @@ function App() {
       </Layout>
       <Footer>Footer</Footer>
     </Layout>
+    </div>
   );
 }
 
