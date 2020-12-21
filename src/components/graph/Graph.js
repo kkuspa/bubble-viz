@@ -15,8 +15,8 @@ var FORCE = (function(nsp){
   var 
     // width = element.width,
     // height = element.height,
-    width = 600,
-    height = 250,
+    width = 800,
+    height = 400,
     color = d3.scaleOrdinal(d3.schemeCategory10),
         
     initForce = (nodes, links) => {

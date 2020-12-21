@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import { AddNodeForm } from './components/forms/AddNodeForm';
 import { AddEdgeForm } from './components/forms/AddEdgeForm';
-import { NodeList } from './components/graph/GraphComponent';
+import { NodeList } from './components/graph/NodeList';
 import { AppGraph } from './components/graph/Graph'
 import './App.css';
 import { Layout } from 'antd';
@@ -22,9 +22,11 @@ function App() {
         </Sider>
         <Content>
           <div className="canvas">
+            <AppGraph/>
+          </div>
+          <div>
             <NodeList/>
           </div>
-          <AppGraph/>
           <div className="App">
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
