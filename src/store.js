@@ -1,14 +1,20 @@
-import { createStore } from 'redux'
-import rootReducer from './reducer'
+import { configureStore } from '@reduxjs/toolkit'
+import graphReducer from './features/graph/graphSlice'
+
 
 let preloadedState
 const persistedTodosString = localStorage.getItem('graph')
 
 if (persistedTodosString) {
   preloadedState = {
-    todos: JSON.parse(persistedTodosString)
+    graph: JSON.parse(persistedTodosString)
   }
 }
 
-const store = createStore(rootReducer, preloadedState)
+const store = configureStore({
+  reducer: {
+    graph: graphReducer
+  },
+  preloadedState: preloadedState
+})
 export default store;

@@ -6,9 +6,6 @@ import * as d3 from 'd3'
 ///////////////////////////////////////////////////////////
 
 var FORCE = (function(nsp){
-  
-    
-  alert(JSON.stringify(nsp))
   // var element = d3.select('canvas').node()
   // const bbox = d3.select("body").node().getBBox()
   // alert(element)

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 
 export const NodeList = () => {
   const nodes = useSelector(state => state.graph.nodes)
-
+  console.log(nodes)
   // since `todos` is an array, we can loop over it
   const renderedListItems = nodes.map(node => {
     return <li key={node.id}>{node.name}</li>

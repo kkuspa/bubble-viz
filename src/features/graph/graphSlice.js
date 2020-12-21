@@ -1,4 +1,5 @@
 import { ADD_NODE } from '../../redux/actionTypes'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     nodes: [
@@ -19,20 +20,19 @@ function nextNodeId(nodes) {
     return maxId + 1
 }
 
-export default function graphReducer(state = initialState, action) {
-  switch (action.type) {
-      case ADD_NODE:
-          return {
-              ...state,
-              nodes: [
-                ...state.nodes,
-                {
-                  id: nextNodeId(state.nodes),
-                  name: action.payload
-                }
-              ]
-          }
-      default:
-          return state
+const graphSlice = createSlice({
+  name: 'graph',
+  initialState,
+  reducers: {
+    addNode(state, action) {
+      state.nodes.push({
+        id: nextNodeId(state.nodes),
+        name: action.payload
+      })
+      console.log("graphslicereducer")
+    }
   }
-}
+})
+
+export const { addNode } = graphSlice.actions
+export default graphSlice.reducer
