@@ -14,10 +14,6 @@ const unsubscribe = store.subscribe(() =>
   console.log('State after dispatch: ', store.getState())
 )
 
-store.dispatch({type: 'ADD_NODE', payload: 'NEW NODE A'})
-store.dispatch({type: 'ADD_NODE', payload: 'NEW NODE B'})
-store.dispatch({type: 'ADD_NODE', payload: 'NEW NODE C'})
-
 console.log('New state: ', store.getState())
 
 

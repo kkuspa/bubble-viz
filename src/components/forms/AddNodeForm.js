@@ -1,17 +1,14 @@
 import { React, Component } from "react";
-
 import { connect, useDispatch } from 'react-redux'
 import { useForm } from "react-hook-form";
 
 // class AddNodeForm extends React.Component {
 export function AddNodeForm() {
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch()
   const onSubmit = data => {
     dispatch({ type: 'graph/addNode', payload: data.name })
   }
-
-  console.log(watch("example")); // watch input value by passing the name of it
 
   return (
     

@@ -1,7 +1,5 @@
 import { React, Component } from "react";
-
 import { connect, useDispatch } from 'react-redux'
-import { addEdge } from '../../redux/actions'
 import { useForm } from "react-hook-form"
 
 
@@ -32,7 +30,4 @@ export function AddEdgeForm() {
     );
 }
 
-export default connect(
-    null,
-    { addEdge }
-  )(AddEdgeForm)
+export default AddEdgeForm

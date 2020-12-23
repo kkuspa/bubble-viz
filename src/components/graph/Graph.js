@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as d3 from 'd3'
+import { connect, useSelector } from 'react-redux';
+
+import * as d3 from 'd3';
+
 ///////////////////////////////////////////////////////////
 /////// Functions and variables
 ///////////////////////////////////////////////////////////
+
+//Source: https://stackoverflow.com/questions/30330646/how-to-create-a-d3-force-layout-graph-using-react/34485379
+
 
 var FORCE = (function(nsp){
   // var element = d3.select('canvas').node()
@@ -128,93 +134,95 @@ var FORCE = (function(nsp){
       this.state = {
         addLinkArray: [], 
         name: "",
-        nodes:
-          [
-            {"name": "fruit", "id": 0},
-            {"name": "apple", "id": 1},
-            {"name": "orange", "id": 2},
-            {"name": "banana", "id": 3}
-          ],
+        node_ids: props.node_ids,
+        nodes: [...props.node_ids].map( (node_id) => {
+            return Object.assign({}, this.props.node_data[node_id])
+        }),
         links: 
           [
             {"source": 0, "target": 1, "id": 0},
             {"source": 0, "target": 2, "id": 1}
           ]
         }
-      this.handleAddNode = this.handleAddNode.bind(this)
-      this.addNode = this.addNode.bind(this)
+      // this.handleAddNode = this.handleAddNode.bind(this)
+      // this.addNode = this.addNode.bind(this)
+    }
+
+    static getDerivedStateFromProps(props, state) {
+      /* On required prop updates from the wtore, modify state so that we maintain a copy of the
+        correct props in the component state.
+
+        This is required since D3 retains its own copy of state in particular with the nodes and
+        links to run all of the animation computation.  It will add attributes such as
+        ['x', 'y', 'vx', 'vy', 'index'], which if directly connected to the redux store will result
+        in state mutations.
+      */
+      if (props.node_ids !== state.node_ids) {
+        const newNodeIds = props.node_ids.filter(x => !state.node_ids.includes(x))
+        const newNodes = newNodeIds.map(node_id => { return Object.assign({}, props.node_data[node_id])})
+        return {
+          ...state,
+          nodes: state.nodes.concat(newNodes),
+          node_ids: state.node_ids.concat(newNodeIds)
+        };
+      }
+      // Return null if the state hasn't changed
+      return null;
+    }
+
+    componentWillMount() {
+      const { nodes } = this.props
+      if (nodes) this.setState(prevState => (Object.assign({ nodes: prevState.nodes = nodes }, prevState)))
+     }
+    
+    componentDidMount() {
+      const data = this.state
+      FORCE.initForce(data.nodes, data.links)
+      FORCE.tick(this)
+      FORCE.drag()
+  }
+
+    componentDidUpdate(prevProps, prevState) {
+      // if (prevState.nodes !== this.state.nodes || prevState.links !== this.state.links) {
+      if (prevState.nodes !== this.state.nodes || prevState.links !== this.state.links) {
+        const data = this.state
+        FORCE.initForce(data.nodes, data.links)
+        FORCE.tick(this)
+        FORCE.drag()
+      }
     }
     
-      componentDidMount() {
-          const data = this.state;
-              FORCE.initForce(data.nodes, data.links)
-                  FORCE.tick(this)
-                  FORCE.drag()
-      }
-  
-      componentDidUpdate(prevProps, prevState) {
-          if (prevState.nodes !== this.state.nodes || prevState.links !== this.state.links) {
-              const data = this.state;
-                  FORCE.initForce(data.nodes, data.links)
-                  FORCE.tick(this)
-                  FORCE.drag()
-          }
-      }
-    
-    handleAddNode(e) {
-          this.setState({ [e.target.name]: e.target.value });
-      }
-    
-    addNode(e) {
-          e.preventDefault();
-          this.setState(prevState => ({
-              nodes: [...prevState.nodes, { name:this.state.name, id: prevState.nodes.length + 1, }], name: ''
-          }));
-      }
-    
-      render() {
-          var links = this.state.links.map( (link) => {
-              return (
-                  <Link
-                      key={link.id}
-                      data={link}
-                  />);
-          });
-          var nodes = this.state.nodes.map( (node) => {
-                return (
-                <Node
-                    data={node}
-                    name={node.name}
-                    key={node.id}
-                />);
-            });
+    render() {
+      var links = this.state.links.map( (link) => {
           return (
-            <div className="graph__container">
-              {/* <form className="form-addSystem" onSubmit={this.addNode.bind(this)}>
-                <h4 className="form-addSystem__header">New Node</h4>
-                <div className="form-addSystem__group">
-                  <input value={this.state.name} onChange={this.handleAddNode.bind(this)}
-                    name="name"
-                    className="form-addSystem__input"
-                    id="name"
-                    placeholder="Name"/>
-                  <label className="form-addSystem__label" htmlFor="title">Name</label>
-                </div>
-                <div className="form-addSystem__group">
-                  <input className="btnn" type="submit" value="add node" />
-                </div>
-              </form> */}
-              <svg className="graph" width={FORCE.width} height={FORCE.height}>
-                  <g>
-                      {links}
-                  </g>
-                  <g>
-                      {nodes}
-                  </g>
-              </svg>
-            </div>
-          );
-      }
+              <Link
+                  key={link.id}
+                  data={link}
+              />);
+      });
+      // // console.log(this.props.nodes)
+      var nodes = this.state.nodes.map( (node) => {
+        return (
+          <Node
+              data={node}
+              name={node.name}
+              key={node.id}
+          />);
+      });
+
+      return (
+        <div className="graph__container">
+          <svg className="graph" width={FORCE.width} height={FORCE.height}>
+              <g>
+                  {links}
+              </g>
+              <g>
+                  {nodes}
+              </g>
+          </svg>
+        </div>
+      );
+    }
   }
   
   ///////////////////////////////////////////////////////////
@@ -246,7 +254,7 @@ var FORCE = (function(nsp){
   ///////////////////////////////////////////////////////////
   
   class Node extends React.Component {
-  
+
       componentDidMount() {
         this.d3Node = d3.select(ReactDOM.findDOMNode(this))
           .datum(this.props.data)
@@ -267,6 +275,18 @@ var FORCE = (function(nsp){
         );
       }
   }
-  
-  export { AppGraph };
-//   ReactDOM.render(<App />, document.querySelector('#root'))
+
+
+const mapStateToProps = function(state) {
+  return {
+    nodes: state.graph.nodes,
+    node_ids: state.graph.node_ids,
+    node_data: state.graph.node_data
+  }
+}
+
+
+export default connect(
+  mapStateToProps,
+  null
+)(AppGraph);
