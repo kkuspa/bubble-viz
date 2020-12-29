@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { v4 as uuid4 } from 'uuid';
 
 const initialState = {
   node_ids: [0, 1, 2, 3],
@@ -19,10 +20,8 @@ const initialState = {
       [1, 2]
     ],
     cyEdges: [
-      { data: { source: 1, target: 3 }},
-      { data: { source: 1, target: 2 }}
-      // { data: { id: 100, source: 1, target: 3 }},
-      // { data: { id: 101, source: 1, target: 2 }}
+      { data: { source: 1, target: 3, id: uuid4() }},
+      { data: { source: 1, target: 2, id: uuid4() }}
     ]
 }
 
@@ -30,12 +29,6 @@ function nextNodeId(nodes) {
     console.log("Computing next node id")
     const maxId = nodes.reduce((maxId, node) => Math.max(node.id, maxId), -1)
     return maxId + 1
-}
-
-function nextEdgeId(edges) {
-  console.log("Computing next edge id")
-  const maxId = edges.reduce((maxId, edge) => Math.max(edge.id, maxId), -1)
-  return maxId + 1
 }
 
 function nextNodeIdId(node_ids) {
@@ -56,7 +49,7 @@ const graphSlice = createSlice({
         id: nextNodeId(state.nodes),
         name: action.payload
       })
-      console.log("ADDNODEREDUCER")
+      console.log("STATE_AFTER_ADD_NODE_REDUCER")
       console.log(state)
     },
         /*Edge tasks
@@ -72,17 +65,19 @@ const graphSlice = createSlice({
       // reducer(state, action) {
 
     addEdge(state, action) {
-      state.cyEdges.push({
-        id: nextEdgeId(state.cyEdges),
-        source: action.payload.source,
-        target: action.payload.target
-      })
-      console.log("ADDEDGEREDUCER")
+      console.log("ADD_EDGE_ACTION")
+      console.log(action)
+      state.cyEdges.push(
+        {
+          data: {
+            id: uuid4(),
+            source: parseInt(action.payload.source),
+            target: parseInt(action.payload.target)
+          }
+        }
+      )
+      console.log("STATE_AFTER_ADD_EDGE_REDUCER")
       console.log(state)
-            // },
-      // prepare(text) {
-      //   return 
-      // }
     }
   }
 })

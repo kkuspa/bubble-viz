@@ -1,5 +1,5 @@
-import { React, Component } from "react";
-import { connect, useDispatch } from 'react-redux'
+import { React } from "react";
+import { useDispatch } from 'react-redux'
 import { useForm } from "react-hook-form";
 
 // class AddNodeForm extends React.Component {
