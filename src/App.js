@@ -4,6 +4,7 @@ import { AddNodeForm } from './components/forms/AddNodeForm';
 import { AddEdgeForm } from './components/forms/AddEdgeForm';
 import { NodeList } from './components/graph/NodeList';
 import AppGraph from './components/graph/Graph'
+import CyGraph from './components/graph/CyGraph'
 import './App.css';
 import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
@@ -25,7 +26,10 @@ function App() {
             <AppGraph/>
           </div>
           <div>
-            <NodeList/>
+            <CyGraph/>
+          </div>
+          <div>
+            {/* <NodeList/> */}
           </div>
           <div className="App">
             <header className="App-header">

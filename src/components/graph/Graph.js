@@ -170,10 +170,10 @@ var FORCE = (function(nsp){
       return null;
     }
 
-    componentWillMount() {
-      const { nodes } = this.props
-      if (nodes) this.setState(prevState => (Object.assign({ nodes: prevState.nodes = nodes }, prevState)))
-     }
+    // componentWillMount() {
+    //   const { nodes } = this.props
+    //   if (nodes) this.setState(prevState => (Object.assign({ nodes: prevState.nodes = nodes }, prevState)))
+    //  }
     
     componentDidMount() {
       const data = this.state
@@ -211,7 +211,7 @@ var FORCE = (function(nsp){
       });
 
       return (
-        <div className="graph__container">
+        <div className="graph_container">
           <svg className="graph" width={FORCE.width} height={FORCE.height}>
               <g>
                   {links}

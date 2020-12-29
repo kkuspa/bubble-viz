@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    node_ids: [0, 1, 2, 3],
+  node_ids: [0, 1, 2, 3],
     node_data: {
       0: { name: 'Alex', id: 0 },
       1: { name: 'Kai', id: 1 },
@@ -17,6 +17,12 @@ const initialState = {
     edges: [
       [1, 3],
       [1, 2]
+    ],
+    cyEdges: [
+      { data: { source: 1, target: 3 }},
+      { data: { source: 1, target: 2 }}
+      // { data: { id: 100, source: 1, target: 3 }},
+      // { data: { id: 101, source: 1, target: 2 }}
     ]
 }
 
@@ -26,6 +32,11 @@ function nextNodeId(nodes) {
     return maxId + 1
 }
 
+function nextEdgeId(edges) {
+  console.log("Computing next edge id")
+  const maxId = edges.reduce((maxId, edge) => Math.max(edge.id, maxId), -1)
+  return maxId + 1
+}
 
 function nextNodeIdId(node_ids) {
   console.log("Computing next node id id")
@@ -45,10 +56,36 @@ const graphSlice = createSlice({
         id: nextNodeId(state.nodes),
         name: action.payload
       })
-      console.log("graphslicereducer")
+      console.log("ADDNODEREDUCER")
+      console.log(state)
+    },
+        /*Edge tasks
+        1) User inputs A and B
+          - Convert strings "A" and "B" to nodeID(A) nodeID(b)
+          - Nodes should be normalized state entities
+          - e.g. nodeIDs = [...]
+              - nodes = { nodeId: nodeInfo (e.g. name, metadata)}
+              
+        2) Check that A and B are BOTH valid nodes that exist in the graph
+        3) Insert edge if DNE
+      */
+      // reducer(state, action) {
+
+    addEdge(state, action) {
+      state.cyEdges.push({
+        id: nextEdgeId(state.cyEdges),
+        source: action.payload.source,
+        target: action.payload.target
+      })
+      console.log("ADDEDGEREDUCER")
+      console.log(state)
+            // },
+      // prepare(text) {
+      //   return 
+      // }
     }
   }
 })
 
-export const { addNode } = graphSlice.actions
+export const { addNode, addEdge } = graphSlice.actions
 export default graphSlice.reducer

@@ -8,8 +8,14 @@ export function AddEdgeForm() {
     const dispatch = useDispatch()
     const onSubmit = data => {
         console.log(data)
-        dispatch({type: 'ADD_EDGE', payload: data.person_a})
-        dispatch({type: 'ADD_EDGE', payload: data.person_b})
+        dispatch(
+            {
+                type: 'graph/addEdge',
+                payload: {
+                    source: data.person_a,
+                    target: data.person_b
+                }
+            })
     }
 
     return (
