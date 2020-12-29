@@ -3,26 +3,16 @@ import { v4 as uuid4 } from 'uuid';
 
 const initialState = {
   node_ids: [0, 1, 2, 3],
-    node_data: {
-      0: { name: 'Alex', id: 0 },
-      1: { name: 'Kai', id: 1 },
-      2: { name: 'Iryna', id: 2 },
-      3: { name: 'Shalini', id: 3 },
-    },
-    nodes: [
-        { id: 0, name: 'Alex' },
-        { id: 1, name: 'Kai' },
-        { id: 2, name: 'Iryna' },
-        { id: 3, name: 'Shalini' },
-    ],
-    edges: [
-      [1, 3],
-      [1, 2]
-    ],
-    cyEdges: [
-      { data: { source: 1, target: 3, id: uuid4() }},
-      { data: { source: 1, target: 2, id: uuid4() }}
-    ]
+  nodes: [
+      { id: 0, name: 'Alex' },
+      { id: 1, name: 'Kai' },
+      { id: 2, name: 'Iryna' },
+      { id: 3, name: 'Shalini' },
+  ],
+  edges: [
+    { data: { source: 1, target: 3, id: uuid4() }},
+    { data: { source: 1, target: 2, id: uuid4() }}
+  ]
 }
 
 function nextNodeId(nodes) {
@@ -44,7 +34,6 @@ const graphSlice = createSlice({
     addNode(state, action) {
       const nextId = nextNodeIdId(state.node_ids)
       state.node_ids.push(nextId)
-      state.node_data[nextId] = { name: action.payload }
       state.nodes.push({
         id: nextNodeId(state.nodes),
         name: action.payload
@@ -67,7 +56,7 @@ const graphSlice = createSlice({
     addEdge(state, action) {
       console.log("ADD_EDGE_ACTION")
       console.log(action)
-      state.cyEdges.push(
+      state.edges.push(
         {
           data: {
             id: uuid4(),

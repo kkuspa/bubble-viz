@@ -10,7 +10,7 @@ class CyGraph extends React.Component {
     const nodes = this.props.nodes.map((node) => {
         return { data: { id: parseInt(node.id), label: node.name }}
     })
-    const edges = this.props.cyEdges.map((edge) => {
+    const edges = this.props.edges.map((edge) => {
       return {
         ...edge,
         data: {
@@ -41,7 +41,7 @@ class CyGraph extends React.Component {
 const mapStateToProps = function(state) {
     return {
       nodes: state.graph.nodes,
-      cyEdges: state.graph.cyEdges
+      edges: state.graph.edges
     }
   }
 

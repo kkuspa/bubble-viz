@@ -136,14 +136,12 @@ var FORCE = (function(nsp){
         name: "",
         node_ids: props.node_ids,
         nodes: [...props.node_ids].map( (node_id) => {
-            return Object.assign({}, this.props.node_data[node_id])
+            return Object.assign({}, this.props.nodes[node_id])
         }),
-        links: 
-          [
-            {"source": 0, "target": 1, "id": 0},
-            {"source": 0, "target": 2, "id": 1}
-          ]
-        }
+        links: [...props.links].map( (link) => {
+          return Object.assign({}, link)
+        }),
+      }
       // this.handleAddNode = this.handleAddNode.bind(this)
       // this.addNode = this.addNode.bind(this)
     }
@@ -157,23 +155,29 @@ var FORCE = (function(nsp){
         ['x', 'y', 'vx', 'vy', 'index'], which if directly connected to the redux store will result
         in state mutations.
       */
+     console.log("gDSFP")
+     console.log(state)
       if (props.node_ids !== state.node_ids) {
         const newNodeIds = props.node_ids.filter(x => !state.node_ids.includes(x))
-        const newNodes = newNodeIds.map(node_id => { return Object.assign({}, props.node_data[node_id])})
+        const newNodes = newNodeIds.map(node_id => { return Object.assign({}, props.nodes[node_id])})
         return {
           ...state,
           nodes: state.nodes.concat(newNodes),
-          node_ids: state.node_ids.concat(newNodeIds)
+          node_ids: state.node_ids.concat(newNodeIds),
+          links: state.links.concat(props.links)
         };
       }
+
+      if (props.links !== state.links) {
+        return {
+          ...state,
+          links: state.links.concat(props.links)
+        }
+      }
+
       // Return null if the state hasn't changed
       return null;
     }
-
-    // componentWillMount() {
-    //   const { nodes } = this.props
-    //   if (nodes) this.setState(prevState => (Object.assign({ nodes: prevState.nodes = nodes }, prevState)))
-    //  }
     
     componentDidMount() {
       const data = this.state
@@ -193,6 +197,8 @@ var FORCE = (function(nsp){
     }
     
     render() {
+      console.log("LINKS:")
+      console.log(this.state.links)
       var links = this.state.links.map( (link) => {
           return (
               <Link
@@ -200,8 +206,7 @@ var FORCE = (function(nsp){
                   data={link}
               />);
       });
-      // // console.log(this.props.nodes)
-      var nodes = this.state.nodes.map( (node) => {
+      var nodes = this.state.nodes.map((node) => {
         return (
           <Node
               data={node}
@@ -281,7 +286,9 @@ const mapStateToProps = function(state) {
   return {
     nodes: state.graph.nodes,
     node_ids: state.graph.node_ids,
-    node_data: state.graph.node_data
+    links: state.graph.edges.map((edge) => {
+      return Object.assign({}, edge.data)
+    })
   }
 }
 
