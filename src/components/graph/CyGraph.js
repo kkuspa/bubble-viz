@@ -6,6 +6,25 @@ import CytoscapeComponent from 'react-cytoscapejs';
 cytoscape.use( cola );
 
 class CyGraph extends React.Component {
+  state = {
+    w: 800,
+    h: 400,
+  }
+
+  componentDidMount = () => {
+    // this.setState({
+    //   w: window.innerWidth,
+    //   h: window.innerHeight
+    // })
+    this.setupListeners()
+  }
+  
+  setupListeners = () => {
+    this.cy.on('click', 'node', (event) => {
+      console.log(event.target)
+    })
+  }
+
   render(){
     const nodes = this.props.nodes.map((node) => {
         return { data: { id: parseInt(node.id), label: node.name }}
@@ -21,20 +40,34 @@ class CyGraph extends React.Component {
       }
     })
 
-    console.log("CyGraph Nodes:")
-    console.log(nodes)
-    console.log("CyGraph Edges:")
-    console.log(edges)
+    // console.log("CyGraph Nodes:")
+    // console.log(nodes)
+    // console.log("CyGraph Edges:")
+    // console.log(edges)
 
     const elements = CytoscapeComponent.normalizeElements({nodes: nodes, edges: edges})
     let layout = { name: 'cola', infinite: true }
 
-    console.log("CyGraph Elements")
-    console.log(elements)
+    // console.log("CyGraph Elements")
+    // console.log(elements)
 
-    return <CytoscapeComponent cy={(cy) => { this.cy = cy }}
+    if (this.cy) {
+      console.log("Has CY!")
+      console.log(this.cy.elements())
+      console.log(this.cy.elements('node[label = "Alex"]'))
+      console.log(this.cy.$('node:selected').connectedEdges())
+    } else {
+      console.log("Cytoscape not yet initialized.")
+    }
+
+    return(
+      <div>
+        <CytoscapeComponent cy={(cy) => { this.cy = cy }}
             elements={elements} layout={layout}
-            style={ {width: '800px', height: '400px' } } />;
+            style={ {width: this.state.w, height: this.state.h } }
+        />
+      </div>
+    );
   }
 }
 

@@ -29,9 +29,9 @@ function App() {
           <div>
             <CyGraph/>
           </div>
-          <div>
+          {/* <div>
             <FnCyGraph/>
-          </div>
+          </div> */}
           <div>
             {/* <NodeList/> */}
           </div>

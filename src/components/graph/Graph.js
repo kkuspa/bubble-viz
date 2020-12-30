@@ -155,28 +155,19 @@ var FORCE = (function(nsp){
         ['x', 'y', 'vx', 'vy', 'index'], which if directly connected to the redux store will result
         in state mutations.
       */
-     console.log("gDSFP")
-     console.log(state)
+      let newState = {...state}
       if (props.node_ids !== state.node_ids) {
         const newNodeIds = props.node_ids.filter(x => !state.node_ids.includes(x))
         const newNodes = newNodeIds.map(node_id => { return Object.assign({}, props.nodes[node_id])})
-        return {
-          ...state,
-          nodes: state.nodes.concat(newNodes),
-          node_ids: state.node_ids.concat(newNodeIds),
-          links: state.links.concat(props.links)
-        };
+        newState.nodes = state.nodes.concat(newNodes)
+        newState.node_ids = state.node_ids.concat(newNodeIds)
       }
 
       if (props.links !== state.links) {
-        return {
-          ...state,
-          links: state.links.concat(props.links)
-        }
+        newState.links = props.links
       }
 
-      // Return null if the state hasn't changed
-      return null;
+      return newState;
     }
     
     componentDidMount() {
@@ -258,7 +249,7 @@ var FORCE = (function(nsp){
   /////// Node component
   ///////////////////////////////////////////////////////////
   
-  class Node extends React.Component {
+    class Node extends React.Component {
 
       componentDidMount() {
         this.d3Node = d3.select(ReactDOM.findDOMNode(this))
