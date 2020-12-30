@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 
 import * as d3 from 'd3';
 
@@ -100,7 +99,7 @@ var FORCE = (function(nsp){
     ),
   
     tick = (that) => {
-      that.d3Graph = d3.select(ReactDOM.findDOMNode(that));
+      that.d3Graph = d3.select(that.wrapper.current);
       nsp.force.on('tick', () => {
         that.d3Graph.call(updateGraph)
       });
@@ -142,6 +141,7 @@ var FORCE = (function(nsp){
           return Object.assign({}, link)
         }),
       }
+      this.wrapper = React.createRef()
       // this.handleAddNode = this.handleAddNode.bind(this)
       // this.addNode = this.addNode.bind(this)
     }
@@ -207,7 +207,7 @@ var FORCE = (function(nsp){
       });
 
       return (
-        <div className="graph_container">
+        <div className="graph_container" ref={this.wrapper}>
           <svg className="graph" width={FORCE.width} height={FORCE.height}>
               <g>
                   {links}
@@ -226,11 +226,15 @@ var FORCE = (function(nsp){
   ///////////////////////////////////////////////////////////
   
   class Link extends React.Component {
-  
+    constructor(props) {
+      super(props)
+      this.wrapper = React.createRef()
+    }
+
       componentDidMount() {
-        this.d3Link = d3.select(ReactDOM.findDOMNode(this))
+        this.d3Link = d3.select(this.wrapper.current)
           .datum(this.props.data)
-          .call(FORCE.enterLink);
+          .call(FORCE.enterLink)
       }
     
       componentDidUpdate() {
@@ -240,7 +244,7 @@ var FORCE = (function(nsp){
   
       render() {
         return (
-          <line className='link' />
+          <line className='link' ref={this.wrapper}/>
         );
       }
   }
@@ -249,10 +253,14 @@ var FORCE = (function(nsp){
   /////// Node component
   ///////////////////////////////////////////////////////////
   
-    class Node extends React.Component {
+  class Node extends React.Component {
+    constructor(props) {
+      super(props)
+      this.wrapper = React.createRef()
+    }
 
       componentDidMount() {
-        this.d3Node = d3.select(ReactDOM.findDOMNode(this))
+        this.d3Node = d3.select(this.wrapper.current)
           .datum(this.props.data)
           .call(FORCE.enterNode)
       }
@@ -264,7 +272,7 @@ var FORCE = (function(nsp){
   
       render() {
         return (
-          <g className='node'>
+          <g className='node' ref={this.wrapper}>
             <circle onClick={this.props.addLink}/>
             <text>{this.props.data.name}</text>
           </g>
