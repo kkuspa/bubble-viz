@@ -12,7 +12,13 @@ const initialState = {
   edges: [
     { data: { source: 1, target: 3, id: uuid4() }},
     { data: { source: 1, target: 2, id: uuid4() }}
-  ]
+  ],
+  nodeNameMap: {
+    "Alex": 0,
+    "Kai": 1,
+    "Iryna": 2,
+    "Shalini": 3,
+  }
 }
 
 function nextNodeId(nodes) {
@@ -38,6 +44,7 @@ const graphSlice = createSlice({
         id: nextNodeId(state.nodes),
         name: action.payload
       })
+      state.nodeNameMap[action.payload] = nextId
       console.log("STATE_AFTER_ADD_NODE_REDUCER")
       console.log(state)
     },

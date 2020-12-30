@@ -1,34 +1,37 @@
 import { React } from "react";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from "react-hook-form";
+import { NodeIdExists } from '../utils/selectors'
 
 // class AddNodeForm extends React.Component {
-export function AddNodeForm() {
+export default function AddNodeForm() {
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch()
   const onSubmit = data => {
-    dispatch({ type: 'graph/addNode', payload: data.name })
+    dispatch({ type: 'graph/addNode', payload: data.fullName })
   }
 
+  const nodeNameMap = useSelector(state => state.graph.nodeNameMap)
+
   return (
-    
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <label>Full Name</label>
+        <input type="text" placeholder="Full Name" name="fullName" ref={register({
+          required: true, maxLength: 80,
+          validate: newName => !(newName in nodeNameMap) ? true : "Name Exists"
+        })} />
+        {errors.fullName && errors.fullName.type === "required" && <p>This field is required</p>}
+        {errors.fullName && errors.fullName.type === "validate" && <p>A node with this name already exists</p>}
         
-      {/* register your input into the hook by invoking the "register" function */}
-        <label>Name</label>
-        <input type="text" placeholder="Name" name="name" ref={register({required: true, maxLength: 80})} />
-        
-        <label>Connected To</label>
-        <input type="text" placeholder="Conected To" name="connected" ref={register} />
+        {/* <label>Connected To</label>
+        <input type="text" placeholder="Connected To" name="connected" ref={register} />
         {/* errors will return when field validation fails  */}
-        {errors.exampleRequired && <span>This field is required</span>}
+        {/* {errors.exampleRequired && <span>This field is required</span>} */}
         
         <input type="submit"/>
       </form>
     </div>
   );
 }
-
-export default AddNodeForm

@@ -1,10 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
-import { AddNodeForm } from './components/forms/AddNodeForm';
+import AddNodeForm from './components/forms/AddNodeForm';
 import { AddEdgeForm } from './components/forms/AddEdgeForm';
 // import { NodeList } from './components/graph/NodeList';
 import AppGraph from './components/graph/Graph'
 import CyGraph from './components/graph/CyGraph'
+import FnCyGraph from './components/graph/FnCyGraph'
 import './App.css';
 import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
@@ -27,6 +28,9 @@ function App() {
           </div>
           <div>
             <CyGraph/>
+          </div>
+          <div>
+            <FnCyGraph/>
           </div>
           <div>
             {/* <NodeList/> */}
