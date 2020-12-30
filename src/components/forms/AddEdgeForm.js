@@ -1,19 +1,21 @@
-import { React, Component } from "react";
-import { connect, useDispatch } from 'react-redux'
+import { React } from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from "react-hook-form"
 
 
-export function AddEdgeForm() {
+export default function AddEdgeForm() {
     const { register, handleSubmit, watch, errors } = useForm();
     const dispatch = useDispatch()
+    const nodeNameMap = useSelector(state => state.graph.nodeNameMap)
+
     const onSubmit = data => {
         console.log(data)
         dispatch(
             {
                 type: 'graph/addEdge',
                 payload: {
-                    source: data.person_a,
-                    target: data.person_b
+                    source: nodeNameMap[data.person_a],
+                    target: nodeNameMap[data.person_b]
                 }
             })
     }
@@ -22,18 +24,24 @@ export function AddEdgeForm() {
         <div>
         <form onSubmit={handleSubmit(onSubmit)}>
         
-            <label>Name</label>
-            <input type="text" placeholder="Name" name="person_a" ref={register({required: true, maxLength: 80})} />
-            {errors.exampleRequired && <span>This field is required</span>}
+            <label>Name 1</label>
+            <input type="text" placeholder="Name" name="person_a" ref={
+                register({required: true, maxLength: 80,
+                validate: newName => (newName in nodeNameMap) ? true : "Person does not exist!"
+                })} />
+            {errors.person_a && errors.person_a.type === "required" && <p>This field is required</p>}
+            {errors.person_a && errors.person_a.type === "validate" && <p>This person does not exist!</p>}
 
-            <label>Name</label>
-            <input type="text" placeholder="Name" name="person_b" ref={register({required: true, maxLength: 80})} />
-            {errors.exampleRequired && <span>This field is required</span>}
+            <label>Name 2</label>
+            <input type="text" placeholder="Name" name="person_b" ref={
+                register({required: true, maxLength: 80,
+                    validate: newName => (newName in nodeNameMap) ? true : "Person does not exist!"
+                })} />
+            {errors.person_b && errors.person_b.type === "required" && <p>This field is required</p>}
+            {errors.person_b && errors.person_b.type === "validate" && <p>This person does not exist!</p>}
 
             <input type="submit"></input>
         </form>
         </div>
     );
 }
-
-export default AddEdgeForm

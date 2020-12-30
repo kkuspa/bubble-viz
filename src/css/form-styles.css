@@ -24,14 +24,14 @@ h1 {
   margin: 10px;
 }
 
-/* p {
+p {
   color: #bf1650;
 }
 
 p::before {
   display: inline;
   content: "⚠ ";
-} */
+}
 
 input {
   display: block;
