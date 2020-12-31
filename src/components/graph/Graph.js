@@ -36,10 +36,8 @@ import { FORCE } from './Force'
       */
       let newState = {...state}
       if (props.node_ids !== state.node_ids) {
-        const newNodeIds = props.node_ids.filter(x => !state.node_ids.includes(x))
-        const newNodes = newNodeIds.map(node_id => { return Object.assign({}, props.nodes[node_id])})
-        newState.nodes = state.nodes.concat(newNodes)
-        newState.node_ids = state.node_ids.concat(newNodeIds)
+        newState.node_ids = props.node_ids
+        newState.nodes = newState.node_ids.map(node_id => {return Object.assign({}, props.nodes[node_id])})
       }
 
       if (props.links !== state.links) {

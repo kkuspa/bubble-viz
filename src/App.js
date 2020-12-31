@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import AddNodeForm from './components/forms/AddNodeForm';
 import AddEdgeForm from './components/forms/AddEdgeForm';
+import { ClearStateButton, DefaultStateButton } from './components/forms/FormButtons';
 // import { NodeList } from './components/graph/NodeList';
 import AppGraph from './components/graph/Graph'
 import CyGraph from './components/graph/CyGraph'
@@ -21,8 +22,10 @@ function App() {
           <AddNodeForm/>
           <h1 id="AddEdgeForm">Add Edge</h1>
           <AddEdgeForm/>
-          <h1 id="ClearForm">Clear Data</h1>"
-          <button id="ClearButton" >Clear</button>
+          <h1 id="ClearState">Clear State</h1>"
+          <ClearStateButton/>
+          <h1 id="DefaultState">Restore Defaults</h1>"
+          <DefaultStateButton/>
         </Sider>
         <Content>
           <div className="canvas">

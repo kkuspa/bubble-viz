@@ -41,7 +41,7 @@ const graphSlice = createSlice({
       const nextId = nextNodeIdId(state.node_ids)
       state.node_ids.push(nextId)
       state.nodes.push({
-        id: nextNodeId(state.nodes),
+        id: nextId,
         name: action.payload
       })
       state.nodeNameMap[action.payload] = nextId
@@ -74,6 +74,19 @@ const graphSlice = createSlice({
       )
       console.log("STATE_AFTER_ADD_EDGE_REDUCER")
       console.log(state)
+    },
+    clearState(state, action) {
+      state.node_ids = []
+      state.nodes = []
+      state.edges = []
+      state.nodeNameMap = {}
+    },
+    defaultState(state, action) {
+      // state = Object.assign({}, initialState)
+      state.node_ids = initialState.node_ids
+      state.nodes = initialState.nodes
+      state.edges = initialState.edges
+      state.nodeNameMap = initialState.nodeNameMap
     }
   }
 })
