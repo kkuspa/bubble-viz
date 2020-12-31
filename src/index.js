@@ -7,9 +7,15 @@ import store from './store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
-const unsubscribe = store.subscribe(() =>
-  console.log('State after dispatch: ', store.getState())
+const unsubscribe = store.subscribe(() => {
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+  console.log('State after dispatch: ', store.getState())}
 )
+
+store.subscribe(()=>{
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+  console.log("WRITING TO LOCAL STORAGE")
+})
 
 ReactDOM.render(
   <React.StrictMode>

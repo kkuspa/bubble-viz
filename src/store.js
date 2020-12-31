@@ -2,14 +2,12 @@ import { configureStore } from '@reduxjs/toolkit'
 import graphReducer from './features/graph/graphSlice'
 
 
-let preloadedState
-const persistedTodosString = localStorage.getItem('graph')
+const preloadedState = localStorage.getItem('reduxState') 
+                       ? JSON.parse(localStorage.getItem('reduxState'))
+                       : {}
 
-if (persistedTodosString) {
-  preloadedState = {
-    graph: JSON.parse(persistedTodosString)
-  }
-}
+console.log("PRELOADED STATE:")
+console.log(preloadedState)
 
 const store = configureStore({
   reducer: {
@@ -17,4 +15,5 @@ const store = configureStore({
   },
   preloadedState: preloadedState
 })
+
 export default store;

@@ -17,10 +17,12 @@ function App() {
       <Header>Header</Header>
       <Layout>
         <Sider>
-          <h1 id="p">Add Nodes</h1>
+          <h1 id="AddNodeForm">Add Nodes</h1>
           <AddNodeForm/>
-          <h1 id="p">Add Edge</h1>
+          <h1 id="AddEdgeForm">Add Edge</h1>
           <AddEdgeForm/>
+          <h1 id="ClearForm">Clear Data</h1>"
+          <button id="ClearButton" >Clear</button>
         </Sider>
         <Content>
           <div className="canvas">
